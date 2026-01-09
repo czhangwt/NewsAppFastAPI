@@ -41,5 +41,30 @@ async def increase_news_views(db: AsyncSession, news_id: int):
 
     # after increase views, check if the database update is successful and return True
     return result.rowcount > 0
+
+
+# get related news by category id and news id
+async def get_related_news(db: AsyncSession, category_id: int, news_id: int):
+    # recommended news by category id and top views/publish time
+    stmt = select(News).where(
+        News.category_id == category_id
+        ).where(
+            News.id != news_id
+        ).order_by(
+            News.views.desc(),
+            News.publish_time.desc()
+        ).limit(5)
+    result = await db.execute(stmt)
+    related_news = result.scalars().all()
+    # get core information of related news 
+    return [
+        {"id": news.id,
+        "title": news.title, 
+        "image": news.image, 
+        "views": news.views, 
+        "publish_time": news.publish_time
+        } 
+    for news in related_news
+    ]
     
 

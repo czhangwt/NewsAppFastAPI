@@ -72,6 +72,7 @@ async def get_news_detail(
     if not views_result:
         raise HTTPException(status_code=500, detail="Failed to increase news views")
 
+    related_news = await news.get_related_news(db, news_detail.category_id, news_id)
     return {
         "code": 200,
         "message": "get news detail success",
@@ -84,6 +85,20 @@ async def get_news_detail(
             "publishTime": news_detail.publish_time,
             "categoryId": news_detail.category_id,
             "views": news_detail.views,
-            "relatedNews": []
+            "relatedNews": related_news
         }
+    }
+
+# get related news by category id
+@router.get("/related")
+async def get_related_news(
+    db: AsyncSession = Depends(get_db), 
+    category_id: int = Query(..., alias="categoryId"), 
+    news_id: int = Query(..., alias="newsId")):
+    # get related news by category id and news id
+    related_news = await news.get_related_news(db, category_id, news_id)
+    return {
+        "code": 200,
+        "message": "get related news success",
+        "data": related_news
     }

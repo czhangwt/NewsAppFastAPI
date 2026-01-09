@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News App - Stay Informed</title>
+    <title>News Hub - Stay Informed</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -20,23 +22,31 @@
             color: #1a202c;
         }
 
-        /* Navigation Bar */
-        .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Top Navigation Bar */
+        .top-nav {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 1001;
         }
 
-        .navbar-header {
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        .top-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
         }
 
-        .navbar-title {
-            font-size: 1.75rem;
+        .top-nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            font-size: 1.5rem;
             font-weight: 700;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
@@ -44,10 +54,100 @@
             background-clip: text;
         }
 
+        .top-nav-logo-icon {
+            font-size: 2rem;
+        }
+
+        .top-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .top-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .top-nav-link:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .top-nav-link.active {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.15);
+        }
+
+        .top-nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: #667eea;
+            border-radius: 2px;
+        }
+
+        .top-nav-user {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: #f7fafc;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .top-nav-user:hover {
+            background: #edf2f7;
+            transform: translateY(-2px);
+        }
+
+        .top-nav-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .top-nav-user-name {
+            color: #2d3748;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        /* Category Navigation Bar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 70px;
+            z-index: 1000;
+        }
+
         .categories-nav {
             display: flex;
             overflow-x: auto;
-            padding: 0 1rem;
+            padding: 0.75rem 1rem;
             gap: 0.5rem;
             scrollbar-width: none;
         }
@@ -377,15 +477,123 @@
         .modal-content::-webkit-scrollbar-thumb:hover {
             background: #a0aec0;
         }
+
+        /* Related News Section */
+        .related-news-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .related-news-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .related-news-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .related-news-card {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .related-news-card:hover {
+            background: #edf2f7;
+            border-color: #667eea;
+            transform: translateX(4px);
+        }
+
+        .related-news-image {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .related-news-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .related-news-card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .related-news-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .related-news-empty {
+            text-align: center;
+            padding: 2rem;
+            color: #718096;
+            font-style: italic;
+        }
     </style>
 </head>
 
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-        <div class="navbar-header">
-            <h1 class="navbar-title">📰 News Hub</h1>
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav">
+        <div class="top-nav-container">
+            <!-- Logo -->
+            <a href="#" class="top-nav-logo">
+                <span class="top-nav-logo-icon"> 📰 </span>
+                <span>News Hub</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="top-nav-links">
+                <a href="#" class="top-nav-link active" id="navNews">
+                    <span>📰</span>
+                    <span>News</span>
+                </a>
+                <a href="#" class="top-nav-link" id="navAI">
+                    <span>🤖</span>
+                    <span>AI Assistant</span>
+                </a>
+                <a href="#" class="top-nav-link" id="navProfile">
+                    <span>👤</span>
+                    <span>User Profile</span>
+                </a>
+            </div>
+
+            <!-- User Section -->
+            <div class="top-nav-user" onclick="handleUserClick()">
+                <div class="top-nav-user-avatar">U</div>
+                <span class="top-nav-user-name">Guest</span>
+            </div>
         </div>
+    </nav>
+
+    <!-- Category Navigation Bar -->
+    <nav class="navbar">
         <div class="categories-nav" id="categoriesNav">
             <!-- Categories will be loaded here -->
         </div>
@@ -425,7 +633,41 @@
         // Load categories on page load
         window.addEventListener('DOMContentLoaded', () => {
             loadCategories();
+            setupNavigation();
         });
+
+        // Setup top navigation
+        function setupNavigation() {
+            const navLinks = document.querySelectorAll('.top-nav-link');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    // Remove active class from all links
+                    navLinks.forEach(l => l.classList.remove('active'));
+
+                    // Add active class to clicked link
+                    link.classList.add('active');
+
+                    // Handle navigation based on link ID
+                    const linkId = link.id;
+                    if (linkId === 'navNews') {
+                        // Already on news page
+                        console.log('News page');
+                    } else if (linkId === 'navAI') {
+                        alert('🤖 AI Assistant feature coming soon!');
+                    } else if (linkId === 'navProfile') {
+                        alert('👤 User Profile feature coming soon!');
+                    }
+                });
+            });
+        }
+
+        // Handle user profile click
+        function handleUserClick() {
+            alert('👤 User Profile\n\nFeatures:\n• View profile\n• Settings\n• Logout\n\nComing soon!');
+        }
 
         // Load categories from API
         function loadCategories() {
@@ -436,12 +678,17 @@
                     const categoriesNav = document.getElementById('categoriesNav');
                     categoriesNav.innerHTML = '';
 
-                    response.data.forEach(category => {
+                    response.data.forEach((category, index) => {
                         const button = document.createElement('button');
                         button.className = 'category-tab';
                         button.textContent = category.name;
                         button.onclick = () => selectCategory(category);
                         categoriesNav.appendChild(button);
+
+                        // Auto-select first category
+                        if (index === 0) {
+                            selectCategory(category);
+                        }
                     });
                 })
                 .catch(error => {
@@ -503,7 +750,7 @@
             }
 
             // Fetch news from API
-            fetch(`http://localhost:8000/api/news/list?categoryId=${category.id}&page=${page}&pageSize=10`)
+            fetch(`http://localhost:8000/api/news/list?categoryId=${category.id}&page=${page}&pageSize=12`)
                 .then(response => response.json())
                 .then(response => {
                     console.log('News response:', response);
@@ -737,7 +984,66 @@
                 html += `<p style="color: #718096; font-style: italic;">No content available.</p>`;
             }
 
+            // Add related news section
+            if (article.relatedNews && article.relatedNews.length > 0) {
+                html += `
+                    <div class="related-news-section">
+                        <h2 class="related-news-title">
+                            <span>🔗</span>
+                            <span>Related Articles</span>
+                        </h2>
+                        <div class="related-news-grid">
+                `;
+
+                article.relatedNews.forEach(relatedArticle => {
+                    html += `
+                        <div class="related-news-card" onclick='openRelatedArticle(${JSON.stringify(relatedArticle)})'>
+                            ${relatedArticle.image ?
+                            `<img src="${relatedArticle.image}" alt="${relatedArticle.title}" class="related-news-image">` :
+                            '<div class="related-news-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">📰</div>'
+                        }
+                            <div class="related-news-content">
+                                <h3 class="related-news-card-title">${relatedArticle.title}</h3>
+                                <div class="related-news-meta">
+                                    ${relatedArticle.publish_time ? `<span>📅 ${formatDate(relatedArticle.publish_time)}</span>` : ''}
+                                    ${relatedArticle.views !== undefined ? `<span>👁️ ${relatedArticle.views}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="related-news-section">
+                        <h2 class="related-news-title">
+                            <span>🔗</span>
+                            <span>Related Articles</span>
+                        </h2>
+                        <div class="related-news-empty">
+                            No related articles found
+                        </div>
+                    </div>
+                `;
+            }
+
             modalBody.innerHTML = html;
+        }
+
+        // Open related article
+        function openRelatedArticle(relatedArticle) {
+            // Scroll modal to top
+            const modalContent = document.querySelector('.modal-content');
+            if (modalContent) {
+                modalContent.scrollTop = 0;
+            }
+
+            // Open the related article (reuse openArticle function)
+            openArticle(relatedArticle);
         }
 
         // Close modal
